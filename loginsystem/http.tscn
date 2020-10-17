@@ -1,0 +1,193 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends HTTPRequest
+
+func _ready():
+	request(\"http://localhost:3000/test123456897\")
+	pass # Replace with function body.
+
+func _on_HTTPRequest_request_completed(result, response_code, headers, body):
+	if result == 0:
+		if response_code == 200:
+			var data = parse_json(body.get_string_from_ascii())
+			print(data.message)
+			return data
+	else:
+		print('error')
+	pass # Replace with function body.
+"
+
+[node name="http" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 0.264893
+margin_right = 0.264893
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+script = SubResource( 1 )
+
+[node name="Login" type="Control" parent="."]
+visible = false
+margin_left = 512.0
+margin_top = 300.0
+margin_right = 552.0
+margin_bottom = 340.0
+
+[node name="username" type="LineEdit" parent="Login"]
+margin_left = -80.0
+margin_top = -45.0
+margin_right = 80.0
+margin_bottom = -21.0
+rect_pivot_offset = Vector2( 80, 12 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Login/username"]
+margin_left = -71.5137
+margin_top = 4.23788
+margin_right = -3.51373
+margin_bottom = 27.2379
+text = "username:"
+align = 2
+
+[node name="email" type="LineEdit" parent="Login"]
+margin_left = -80.0
+margin_top = -12.0
+margin_right = 80.0
+margin_bottom = 12.0
+rect_pivot_offset = Vector2( 80, 12 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="Login/email"]
+margin_left = -71.5137
+margin_top = 3.28665
+margin_right = -3.51373
+margin_bottom = 26.2867
+text = "password:"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="login" type="Button" parent="Login"]
+margin_left = -77.8001
+margin_top = 20.4737
+margin_right = -34.8001
+margin_bottom = 40.4737
+text = "login"
+
+[node name="register" type="Button" parent="Login"]
+margin_left = -27.0883
+margin_top = 20.4737
+margin_right = 15.9117
+margin_bottom = 40.4737
+text = "register"
+
+[node name="Register" type="Control" parent="."]
+margin_left = 512.0
+margin_top = 300.0
+margin_right = 552.0
+margin_bottom = 340.0
+
+[node name="username" type="LineEdit" parent="Register"]
+margin_left = -80.0
+margin_top = -76.4644
+margin_right = 80.0
+margin_bottom = -52.4644
+rect_pivot_offset = Vector2( 80, 12 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Register/username"]
+margin_left = -71.5137
+margin_top = 4.23788
+margin_right = -3.51373
+margin_bottom = 27.2379
+text = "username:"
+align = 2
+
+[node name="email" type="LineEdit" parent="Register"]
+margin_left = -80.0
+margin_top = -45.0
+margin_right = 80.0
+margin_bottom = -21.0
+rect_pivot_offset = Vector2( 80, 12 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Register/email"]
+margin_left = -71.5137
+margin_top = 4.23788
+margin_right = -3.51373
+margin_bottom = 27.2379
+text = "email:"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="password" type="LineEdit" parent="Register"]
+margin_left = -80.0
+margin_top = -12.0
+margin_right = 80.0
+margin_bottom = 12.0
+rect_pivot_offset = Vector2( 80, 12 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="Register/password"]
+margin_left = -71.5137
+margin_top = 3.28665
+margin_right = -3.51373
+margin_bottom = 26.2867
+text = "password:"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="re enter password" type="LineEdit" parent="Register"]
+margin_left = -80.0
+margin_top = 21.0
+margin_right = 80.0
+margin_bottom = 45.0
+rect_pivot_offset = Vector2( 80, 12 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="Register/re enter password"]
+margin_left = -123.58
+margin_top = 3.28665
+margin_right = -4.5799
+margin_bottom = 26.2867
+text = "re enter password:"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="login" type="Button" parent="Register"]
+margin_left = -77.8001
+margin_top = 51.9381
+margin_right = -34.8001
+margin_bottom = 71.9381
+text = "login"
+
+[node name="register" type="Button" parent="Register"]
+margin_left = -27.0883
+margin_top = 51.9381
+margin_right = 33.9117
+margin_bottom = 71.9381
+text = "register"
+[connection signal="request_completed" from="HTTPRequest" to="HTTPRequest" method="_on_HTTPRequest_request_completed"]
