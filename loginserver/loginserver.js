@@ -2,17 +2,9 @@ var express = require('express');
 var app = express();
 
 // on the request to root (localhost:3000/)
-app.get('/', function (req, res) {
+app.get('*', function (req, res) {
+    console.log(req.originalUrl);
     res.send('{"message":123}');
-});
-
-app.get('/game', function (req, res) {
-    res.send(req.headers);
-});
-
-// On localhost:3000/welcome
-app.get('/welcome', function (req, res) {
-    res.send('<b>Hello</b> welcome to my http server made with express');
 });
 
 // Change the 404 message modifing the middleware

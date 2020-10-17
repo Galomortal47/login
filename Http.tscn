@@ -3,9 +3,8 @@
 [sub_resource type="GDScript" id=1]
 script/source = "extends HTTPRequest
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	request(\"http://localhost:3000/\")
+	request(\"http://localhost:3000/test123456897\")
 	pass # Replace with function body.
 
 func _on_HTTPRequest_request_completed(result, response_code, headers, body):
