@@ -1,0 +1,17 @@
+{
+	"name": "loginsvr",
+	"version": "0.0.1",
+	"private": true,
+	"dependencies": {
+		"express": "*"
+	},
+	"bin": "loginserver.js",
+	"pkg": {
+		"assets": [
+			"views/**/*"
+		],
+		"targets": [
+			"node7"
+		]
+	}
+}
