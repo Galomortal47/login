@@ -15,21 +15,24 @@ const userDataSchema = {
 // on the request to root (localhost:3000/)
 app.get('*', function (req, res) {
     //console.log(req.originalUrl);
-    var str = req.originalUrl.toString()
-    var jsonObj = JSON.parse(str.slice(1,str.length));
-    userDataSchema.username = jsonObj.username
-    userDataSchema.user_password = jsonObj.hash_and_salt
-    userDataSchema.email = jsonObj.email
-    userDataSchema.salt = jsonObj.salt
-    var error = db.create(userDataSchema);
-    //console.log(error);
-    if(!(error == null)){
-      res.send('{"response": "Username Already Taken"}');
-      console.log("Username Already Taken")
+    let str = req.originalUrl.toString()
+    let jsonObj = JSON.parse(str.slice(1,str.length));
+		let new_data = {};
+    new_data["username"] = jsonObj.username
+    new_data["user_password"] = jsonObj.hash_and_salt
+    new_data["email"] = jsonObj.email
+  	new_data["salt"] = jsonObj.salt
+		let login_operation = db.read({username: jsonObj.username});
+		let json = JSON.stringify(login_operation);
+		if(json == "{}" || json == "[]"){
+    	 db.create(new_data);
+			 res.send('{"response": "Registered Succesfully"}');
+			 console.log("Registered Succesfully")
     }else{
-      res.send('{"response": "Registered Succesfully"}');
-      console.log("Registered Succesfully")
+			res.send('{"response": "Username Already Taken"}');
+			console.log("Username Already Taken")
       }
+
 });
 
 // Change the 404 message modifing the middleware

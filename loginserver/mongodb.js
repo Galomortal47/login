@@ -45,11 +45,11 @@ var error;
 		client_data
 	).save(function (err){
 		if(err){
-			console.log("User Alreadt Exists" + err.toString());
+		//	console.log("User Alreadt Exists" + err.toString());
       error = true;
 		}
 		else{
-			console.log("User Registered");
+		//	console.log("User Registered");
       error = false;
 		}
 	});
