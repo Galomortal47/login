@@ -37,7 +37,12 @@ app.get('*', function (req, res) {
   	new_data["salt"] = jsonObj.salt
 
 		if (jsonObj.operation == "login"){
-				console.log(jsonObj.username);
+				//console.log(jsonObj.username);
+				UserData.find(
+				{username: jsonObj.username}
+				, function(err, docs){
+					console.log(docs);
+				});
 				res.send('{"response": "connecting..."}');
 			}
 
