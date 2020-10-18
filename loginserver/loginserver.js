@@ -1,16 +1,29 @@
 var express = require('express');
 var app = express();
-var database = require("./mongodb.js");
-var db = new database();
+const mongoose = require("mongoose");
 
-const userDataSchema = {
+mongoose.Promise = global.Promise;
+
+mongoose.connect("mongodb://localhost/game_server_test_4", {
+	useNewUrlParser: true, useUnifiedTopology: true
+}).then(() => {
+	console.log("MongoDB had connected");
+}).catch((err) => {
+	console.log("an error had ocurred: " + err);
+});
+
+// schema for the database
+const userDataSchema = mongoose.Schema({
 	// _id: Number,
-	username: "",
-	user_password: "",
-	email: "",
-  salt: "",
-	content: {}
-};
+	username: {type: String, required: true, index : {unique: true}},
+	user_password: {type: String, required: true},
+	email: {type: String, required: true},
+  salt: {type: String, required: true},
+	content: Object
+}, {collection: 'user_Data'});
+
+var UserData = mongoose.model('userData', userDataSchema);
+
 
 // on the request to root (localhost:3000/)
 app.get('*', function (req, res) {
@@ -22,16 +35,18 @@ app.get('*', function (req, res) {
     new_data["user_password"] = jsonObj.hash_and_salt
     new_data["email"] = jsonObj.email
   	new_data["salt"] = jsonObj.salt
-		let login_operation = db.read({username: jsonObj.username});
-		let json = JSON.stringify(login_operation);
-		if(json == "{}" || json == "[]"){
-    	 db.create(new_data);
-			 res.send('{"response": "Registered Succesfully"}');
-			 console.log("Registered Succesfully")
-    }else{
-			res.send('{"response": "Username Already Taken"}');
-			console.log("Username Already Taken")
-      }
+
+		new UserData(
+			new_data
+		).save(function (err){
+			if(err){
+				res.send('{"response": "Username Already Taken"}');
+				console.log("Username Already Taken")
+			}
+			else{
+				res.send('{"response": "Registered Succesfully"}');
+				console.log("Registered Succesfully")
+			}});
 
 });
 

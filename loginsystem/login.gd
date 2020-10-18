@@ -1,16 +1,9 @@
 extends Control
 
+onready var register = get_parent().get_node("Register")
+onready var http = get_parent().get_node("HTTPRequest")
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
+func _on_register_button_down():
+	hide()
+	register.show()
 	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
