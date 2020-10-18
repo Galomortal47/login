@@ -39,6 +39,7 @@ app.get('*', function (req, res) {
     new_data["email"] = jsonObj.email
   	new_data["salt"] = jsonObj.salt
 		console.log(jsonObj.operation);
+
 		if (jsonObj.operation == "login"){
 				//console.log(jsonObj.username);
 				UserData.find(
@@ -79,6 +80,9 @@ app.get('*', function (req, res) {
 				if (jsonObj.auth2 == auth){
 						res.send('{"response": {"message": "Login Succesfully"}}');
 						console.log("Login Succesfully");
+					}else{
+						res.send('{"response": {"message": "Wrong Password"}}');
+						console.log("Wrong Password");
 					}
 				}
 			});
