@@ -41,8 +41,8 @@ func _on_register_button_down():
 		get_node("AcceptDialog").popup_centered(Vector2(150,60))
 		get_node("AcceptDialog").show()
 	var hasher = data.password.sha256_text()
-	var salt = data.salt.sha256_text()
-	data.hash_and_salt = hasher#(hasher+salt).sha256_text()
+	var salt = data.username.sha256_text()
+	data.hash_and_salt = (hasher+salt).sha256_text()
 	data.password = ""
 	data.password2 = ""
 	http._send_data(data)

@@ -26,6 +26,7 @@ const userDataSchema = mongoose.Schema({
 
 var UserData = mongoose.model('userData', userDataSchema);
 
+var user_salt = {};
 
 // on the request to root (localhost:3000/)
 app.get('*', function (req, res) {
@@ -37,28 +38,51 @@ app.get('*', function (req, res) {
     new_data["user_password"] = jsonObj.hash_and_salt
     new_data["email"] = jsonObj.email
   	new_data["salt"] = jsonObj.salt
-
+		console.log(jsonObj.operation);
 		if (jsonObj.operation == "login"){
 				//console.log(jsonObj.username);
 				UserData.find(
 				{username: jsonObj.username}
 				, function(err, docs){
-					console.log(docs);
+					//console.log(docs);
 					if(docs.length == 0){
 						res.send('{"response": {"message": "user not found"}}');
 						console.log("user not found");
 					}else{
 					let rand = Math.floor((Math.random() * 100000000) + 1);
 					let salt = sha256(rand.toString());
+					user_salt[jsonObj.username] = salt
 					var aunt = (docs[0].user_password + salt)
 					var auth = sha256(aunt);
-					console.log(salt);
-					console.log(auth);
+					//console.log(salt);
+					//console.log(auth);
 					res.send('{"response": {"message": "connecting...", "auth": "'+ salt +'"}}');
 					console.log("connecting..");
 					}
 				});
 			}
+
+		if (jsonObj.operation == "auth"){
+			//console.log(jsonObj.username);
+			UserData.find(
+			{username: jsonObj.username}
+			, function(err, docs){
+				console.log(docs);
+				if(docs.length == 0){
+					res.send('{"response": {"message": "user not found"}}');
+					console.log("user not found");
+				}else{
+				var aunt = (docs[0].user_password + user_salt[jsonObj.username])
+				var auth = sha256(aunt);
+				//console.log(salt);
+				//console.log(auth);
+				if (jsonObj.auth2 == auth){
+						res.send('{"response": {"message": "Login Succesfully"}}');
+						console.log("Login Succesfully");
+					}
+				}
+			});
+		}
 
 		if (jsonObj.operation == "register"){
 		new UserData(
