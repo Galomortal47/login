@@ -36,6 +36,12 @@ app.get('*', function (req, res) {
     new_data["email"] = jsonObj.email
   	new_data["salt"] = jsonObj.salt
 
+		if (jsonObj.operation == "login"){
+				console.log(jsonObj.username);
+				res.send('{"response": "connecting..."}');
+			}
+
+		if (jsonObj.operation == "register"){
 		new UserData(
 			new_data
 		).save(function (err){
@@ -47,7 +53,7 @@ app.get('*', function (req, res) {
 				res.send('{"response": "Registered Succesfully"}');
 				console.log("Registered Succesfully")
 			}});
-
+		}
 });
 
 // Change the 404 message modifing the middleware

@@ -44,7 +44,6 @@ margin_right = 83.0
 margin_bottom = 58.0
 
 [node name="Login" type="Control" parent="."]
-visible = false
 margin_left = 512.0
 margin_top = 300.0
 margin_right = 552.0
@@ -106,6 +105,7 @@ margin_bottom = 40.4737
 text = "register"
 
 [node name="Register" type="Control" parent="."]
+visible = false
 margin_left = 512.0
 margin_top = 300.0
 margin_right = 552.0
@@ -221,6 +221,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 [connection signal="request_completed" from="HTTPRequest" to="HTTPRequest" method="_on_HTTPRequest_request_completed"]
+[connection signal="button_down" from="Login/login" to="Login" method="_on_login_button_down"]
 [connection signal="button_down" from="Login/register" to="Login" method="_on_register_button_down"]
 [connection signal="button_down" from="Register/login" to="Register" method="_on_login_button_down"]
 [connection signal="button_down" from="Register/register" to="Register" method="_on_register_button_down"]
