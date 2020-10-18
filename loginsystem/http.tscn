@@ -18,23 +18,10 @@ func _on_HTTPRequest_request_completed(result, response_code, headers, body):
 		if response_code == 200:
 			var data = parse_json(body.get_string_from_ascii())
 			print(data)
+			get_parent().get_node(\"Login\")._authentication(data)
 			get_node(\"AcceptDialog\").set_text(str(data.response.message))
 			get_node(\"AcceptDialog\").popup_centered(Vector2(150,60))
 			get_node(\"AcceptDialog\").show()
-			if data.response.has(\"auth\"):
-				var hasher = get_parent().get_node(\"Login/password\").get_text().sha256_text()
-				var  username = get_parent().get_node(\"Login/username\").get_text().sha256_text()
-				var salt = data.response.auth
-				var hash_and_salt = (hasher+username).sha256_text()
-				var hash_and_salt2 = (hash_and_salt+salt).sha256_text()
-#				print(salt)
-#				print(hasher)
-#				print(hash_and_salt2)
-				var senddata = {}
-				senddata[\"username\"] = get_parent().get_node(\"Login/username\").get_text()
-				senddata[\"auth2\"] = hash_and_salt2
-				senddata[\"operation\"] = 'auth'
-				_send_data(senddata)
 			data = {}
 	else:
 		print('error')

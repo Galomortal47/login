@@ -18,6 +18,19 @@ func _on_register_button_down():
 	register.show()
 	pass # Replace with function body.
 
+func _authentication(auth_data):
+	if auth_data.response.has("auth"):
+		var hasher = get_node("password").get_text().sha256_text()
+		var  username = get_node("username").get_text().sha256_text()
+		var salt =  auth_data.response.auth
+		var hash_and_salt = (hasher+username).sha256_text()
+		var hash_and_salt2 = (hash_and_salt+salt).sha256_text()
+		var senddata = {}
+		senddata["username"] = get_node("username").get_text()
+		senddata["auth2"] = hash_and_salt2
+		senddata["operation"] = 'auth'
+		get_parent().get_node("HTTPRequest")._send_data(senddata)
+
 func _on_login_button_down():
 	data.username = get_node("username").get_text()
 	data.operation = "login"
