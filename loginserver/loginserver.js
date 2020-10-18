@@ -1,6 +1,8 @@
 var express = require('express');
 var app = express();
 const mongoose = require("mongoose");
+const sha256 = require("sha256");
+
 
 mongoose.Promise = global.Promise;
 
@@ -42,8 +44,20 @@ app.get('*', function (req, res) {
 				{username: jsonObj.username}
 				, function(err, docs){
 					console.log(docs);
+					if(docs.length == 0){
+						res.send('{"response": {"message": "user not found"}}');
+						console.log("user not found");
+					}else{
+					let rand = Math.floor((Math.random() * 100000000) + 1);
+					let salt = sha256(rand.toString());
+					var aunt = (docs[0].user_password + salt)
+					var auth = sha256(aunt);
+					console.log(salt);
+					console.log(auth);
+					res.send('{"response": {"message": "connecting...", "auth": "'+ salt +'"}}');
+					console.log("connecting..");
+					}
 				});
-				res.send('{"response": "connecting..."}');
 			}
 
 		if (jsonObj.operation == "register"){
@@ -51,11 +65,11 @@ app.get('*', function (req, res) {
 			new_data
 		).save(function (err){
 			if(err){
-				res.send('{"response": "Username Already Taken"}');
+				res.send('{"response": {"message": "Username Already Taken"}}');
 				console.log("Username Already Taken")
 			}
 			else{
-				res.send('{"response": "Registered Succesfully"}');
+				res.send('{"response": {"message": "Registered Succesfully"}}');
 				console.log("Registered Succesfully")
 			}});
 		}

@@ -17,9 +17,17 @@ func _on_HTTPRequest_request_completed(result, response_code, headers, body):
 	if result == 0:
 		if response_code == 200:
 			var data = parse_json(body.get_string_from_ascii())
-			get_node(\"AcceptDialog\").set_text(str(data.response))
+			print(data)
+			get_node(\"AcceptDialog\").set_text(str(data.response.message))
 			get_node(\"AcceptDialog\").popup_centered(Vector2(150,60))
 			get_node(\"AcceptDialog\").show()
+			if data.response.has(\"auth\"):
+				var hasher = get_parent().get_node(\"Login/password\").get_text().sha256_text()
+				var salt = data.response.auth
+				var hash_and_salt = (hasher+salt).sha256_text()
+				print(salt)
+				print(hasher)
+				print(hash_and_salt)
 			data = {}
 	else:
 		print('error')
