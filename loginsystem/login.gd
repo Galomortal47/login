@@ -13,6 +13,8 @@ var data = {
 "operation":""
 }
 
+var store_data
+
 func _on_register_button_down():
 	hide()
 	register.show()
@@ -30,15 +32,14 @@ func _authentication(auth_data):
 		senddata["auth2"] = hash_and_salt2
 		senddata["operation"] = 'auth'
 		get_parent().get_node("HTTPRequest")._send_data(senddata)
+		store_data = auth_data
 
 func _on_login_button_down():
 	data.username = get_node("username").get_text()
 	data.operation = "login"
-#	data.password = get_node("password").get_text()
-#	var hasher = data.password.sha256_text()
-#	var salt = data.salt.sha256_text()
-#	data.hash_and_salt = (hasher+salt).sha256_text()
-#	data.password = ""
 	http._send_data(data)
 	pass # Replace with function body.
 
+func _on_authtest_button_down():
+	_authentication(store_data)
+	pass # Replace with function body.

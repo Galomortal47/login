@@ -106,6 +106,13 @@ margin_right = 15.9117
 margin_bottom = 40.4737
 text = "register"
 
+[node name="authtest" type="Button" parent="Login"]
+margin_left = -69.3948
+margin_top = -75.2218
+margin_right = -4.39478
+margin_bottom = -55.2218
+text = "authtest"
+
 [node name="Register" type="Control" parent="."]
 visible = false
 margin_left = 512.0
@@ -225,5 +232,6 @@ __meta__ = {
 [connection signal="request_completed" from="HTTPRequest" to="HTTPRequest" method="_on_HTTPRequest_request_completed"]
 [connection signal="button_down" from="Login/login" to="Login" method="_on_login_button_down"]
 [connection signal="button_down" from="Login/register" to="Login" method="_on_register_button_down"]
+[connection signal="button_down" from="Login/authtest" to="Login" method="_on_authtest_button_down"]
 [connection signal="button_down" from="Register/login" to="Register" method="_on_login_button_down"]
 [connection signal="button_down" from="Register/register" to="Register" method="_on_register_button_down"]
